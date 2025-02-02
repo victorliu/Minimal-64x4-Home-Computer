@@ -256,7 +256,6 @@ void Assembler(const std::string& src, std::stringstream& hexout, std::stringstr
     if (src[ep+elen-1] == ':') // label definition
     {
       std::string def = src.substr(ep, elen-1);
-      bool isknown = false; // is it a known label?
       for(int i=0; i<labels.size(); i++) // search existing label database
         if (def == labels[i]) { errors << "ERROR in line " << ln(src, ep) << ": Definition already exists.\n"; return; }
       labels.emplace_back(src.substr(ep, elen-1)); labelpc.emplace_back(pc); // accept as new definition
@@ -274,7 +273,7 @@ void Assembler(const std::string& src, std::stringstream& hexout, std::stringstr
         }
         if (!isOrg) { errors << "ERROR in line " << ln(src, ep) << ": Expecting a 16-bit HEX address.\n"; return; }
       }
-      else if (elen == 5 & src.substr(ep+1, 4) == "page")
+      else if (elen == 5 && src.substr(ep+1, 4) == "page")
       {
         int delta = (-(pc & 0xff)) & 0xff;
         pc += delta;
@@ -458,7 +457,7 @@ void Assembler(const std::string& src, std::stringstream& hexout, std::stringstr
 
 int main(int argc, char *argv[])
 {
-  std::cout << "Minimal Smart Assembler by C. Herting (slu4) 2024\n\n"; // output help screen
+  //std::cout << "Minimal Smart Assembler by C. Herting (slu4) 2024\n\n"; // output help screen
 
   bool dosym = false; // by default don't output a symbol table
   std::string symtag = ""; // by default don't use any symbol tag
