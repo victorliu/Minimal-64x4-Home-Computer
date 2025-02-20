@@ -459,7 +459,7 @@ void doClock(){
 	if (mCtrl & RI){ // note: RI|ME/MIL/MIH works, since ME/MIL/MIH changes MAR *only after* the write pulse has finshed
     if ((MAR & 0x8000) || (Bank & 0x80)) RAM[MAR] = mBus; // always write to RAM
     else{ // FLASH access with 4 upper bits = 0
-    	word adr = ((word)Bank<<12) | (MAR & 0x0fff); // FLASH only needs 15 bits
+    	uint32_t adr = ((uint32_t)Bank<<12) | (MAR & 0x0fff); // FLASH only needs 15 bits
     	switch (FLASHState){
     		case 0: if (adr == 0x5555 && mBus == 0xaa) FLASHState = 1; else FLASHState = 0; break;
     		case 1: if (adr == 0x2aaa && mBus == 0x55) FLASHState = 2; else FLASHState = 0; break;
@@ -471,7 +471,7 @@ void doClock(){
     		case 4: if (adr == 0x5555 && mBus == 0xaa) FLASHState = 5; else FLASHState = 0; break;
     		case 5: if (adr == 0x2aaa && mBus == 0x55) FLASHState = 6; else FLASHState = 0; break;
     		case 6:
-    			if (mBus == 0x30) for (i=0; i<0x1000; i++) FLASH[((word)Bank<<12) | i] = 0xff; // sector erase operation
+    			if (mBus == 0x30) for (i=0; i<0x1000; i++) FLASH[((uint32_t)Bank<<12) | i] = 0xff; // sector erase operation
     			FLASHState = 0; break;
 			}
 		}
