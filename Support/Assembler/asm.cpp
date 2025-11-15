@@ -1,4 +1,5 @@
 // Build with: g++ asm.cpp -O2 -oasm.exe -s -static
+// On macOS:   g++ asm.cpp -O2 -oasm -std=c++11
 
 // LICENSING INFORMATION
 // This file is free software: you can redistribute it and/or modify it under the terms of the
